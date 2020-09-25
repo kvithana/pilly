@@ -1,11 +1,11 @@
 import * as functions from 'firebase-functions'
+import { extractText } from './_vision'
 
-import * as analyserEndpoints from './modules/analyser'
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
 
-export const analyser = analyserEndpoints
-export const helloWorld = functions.https.onRequest((request, response) => {
+export const analyse = functions.https.onRequest((request, response) => {
+  console.log(extractText('gs://codebrew-2020.appspot.com/dL_ZgPIQ-kwiP7-CmdFmJ'))
   functions.logger.info('Hello logs!', { structuredData: true })
   response.send('Hello from Firebase!')
 })
