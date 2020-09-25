@@ -1,13 +1,16 @@
+import { createBrowserHistory } from "history";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import "./styles/generated/tailwind.css";
 import App from "./App";
+import "./index.css";
 import * as serviceWorker from "./serviceWorker";
+import "./styles/generated/tailwind.css";
+
+const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App history={history} />
   </React.StrictMode>,
   document.getElementById("root")
 );

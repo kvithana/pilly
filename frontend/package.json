@@ -27,12 +27,15 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "framer-motion": "^2.7.4",
+    "history": "4.10.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "typescript": "3.9.7"
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.5",
     "@types/testing-library__dom": "^7.5.0",
     "autoprefixer": "^10.0.0",
     "postcss-cli": "^8.0.0",
