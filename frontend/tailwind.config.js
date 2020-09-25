@@ -1,7 +1,7 @@
 module.exports = {
   future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
   },
   purge: [],
   target: 'relaxed',
@@ -676,7 +676,7 @@ module.exports = {
     appearance: ['responsive'],
     backgroundAttachment: ['responsive'],
     backgroundClip: ['responsive'],
-    backgroundColor: ['responsive', 'hover', 'focus'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'active'],
     backgroundImage: ['responsive'],
     gradientColorStops: ['responsive', 'hover', 'focus'],
     backgroundOpacity: ['responsive', 'hover', 'focus'],
@@ -747,7 +747,7 @@ module.exports = {
     strokeWidth: ['responsive'],
     tableLayout: ['responsive'],
     textAlign: ['responsive'],
-    textColor: ['responsive', 'hover', 'focus'],
+    textColor: ['responsive', 'hover', 'focus', 'active'],
     textOpacity: ['responsive', 'hover', 'focus'],
     textDecoration: ['responsive', 'hover', 'focus'],
     textTransform: ['responsive'],
