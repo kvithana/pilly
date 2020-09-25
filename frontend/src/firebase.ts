@@ -19,4 +19,8 @@ const functions = app.functions('asia-northeast1')
 const storage = app.storage()
 const firestore = app.firestore()
 
+if (process.env.NODE_ENV !== 'production') {
+  functions.useFunctionsEmulator('http://localhost:5001')
+}
+
 export { firebase, app, auth, functions, storage, firestore }

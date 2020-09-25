@@ -10,7 +10,6 @@ const client = new vision.ImageAnnotatorClient()
 export const extractText = async (location: string) => {
   try {
     const response = await client.documentTextDetection(location)
-    console.log(response)
     return response[0]
   } catch (e) {
     // log error

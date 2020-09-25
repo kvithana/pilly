@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '../components/button'
 import { cs } from '../cs'
-import { storage } from '../firebase'
+import { functions, storage } from '../firebase'
 import styles from './scan.module.css'
 import { nanoid } from 'nanoid'
 
@@ -110,6 +110,7 @@ export function ScanView() {
     capturer.current.pause()
     const id = nanoid()
     await storage.ref(id).put(blob)
+    await functions.httpsCallable('analyser-analyse')({ id })
     setProcessing(false)
     capturer.current.play()
   }
