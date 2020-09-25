@@ -1,6 +1,6 @@
-import { History } from "history";
-import React from "react";
-import { Route, Router, Switch } from "react-router-dom";
+import { History } from 'history'
+import React from 'react'
+import { Route, Router, Switch } from 'react-router-dom'
 
 function App({ history }: { history: History }) {
   return (
@@ -14,7 +14,7 @@ function App({ history }: { history: History }) {
         </Route>
       </Switch>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
