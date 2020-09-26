@@ -1,5 +1,4 @@
 import React from 'react'
-import { Square } from '../components/square'
 import { cs } from '../cs'
 
 export function Home() {

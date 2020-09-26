@@ -9,7 +9,7 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import 'firebase/messaging'
 
 const isLocalhost = Boolean(

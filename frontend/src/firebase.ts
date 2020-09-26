@@ -3,6 +3,7 @@ import 'firebase/storage'
 import 'firebase/firestore'
 import 'firebase/auth'
 import 'firebase/functions'
+import 'firebase/messaging'
 
 const app = firebase.initializeApp({
   apiKey: 'AIzaSyBKMMHSyLMSMc5iqoItPgxUlJJTFJEV65Q',
@@ -18,9 +19,10 @@ const auth = app.auth()
 const functions = app.functions('australia-southeast1')
 const storage = app.storage()
 const firestore = app.firestore()
+const messaging = app.messaging()
 
 if (process.env.NODE_ENV !== 'production') {
   functions.useFunctionsEmulator('http://localhost:5001')
 }
 
-export { firebase, app, auth, functions, storage, firestore }
+export { firebase, app, auth, functions, storage, firestore, messaging }
