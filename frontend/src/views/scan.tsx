@@ -1,4 +1,5 @@
 import * as clipboardy from 'clipboardy'
+import { AnimatePresence, motion } from 'framer-motion'
 import { nanoid } from 'nanoid'
 import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -202,24 +203,26 @@ export function ScanView() {
                   'w-full',
                   'h-full',
                   'flex',
+                  'flex-col',
                   'items-center',
                   'justify-center',
                   'rounded-lg',
                 )}
               >
-                <p className={cs('text-lg')}>Scanning...</p>
+                <p>Health tip:</p>
+                <Tips />
               </div>
             ) : null}
           </div>
         </Square>
       </div>
       <div>
-        <p>Place the prescription label within the frame.</p>
+        <motion.p animate={{ opacity: processing ? 0 : 1 }}>Place the prescription label within the frame.</motion.p>
       </div>
       {permission === 'granted' ? (
         <div className={cs('fixed', 'bottom-0', 'left-0', 'right-0', 'flex', 'justify-center', 'pb-8')}>
-          <Button onClick={capture} invert>
-            Scan
+          <Button onClick={capture} invert disabled={processing} pending={processing}>
+            {processing ? 'Scanning' : 'Scan'}
           </Button>
         </div>
       ) : null}
@@ -271,3 +274,51 @@ function CopyText({ text }: { text: string }) {
 
   return <span onClick={copy}>{copied ? 'Copied to clipboard' : text}</span>
 }
+
+function Tips() {
+  const [index, setIndex] = useState(Math.floor(Math.random() * TIPS.length))
+
+  useEffect(() => {
+    const intervalId = setTimeout(() => {
+      setIndex((value) => (value + 1) % TIPS.length)
+    }, 5000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  })
+
+  return (
+    <div>
+      <AnimatePresence exitBeforeEnter>
+        <motion.div
+          initial={{ opacity: 0, y: '16px' }}
+          animate={{ opacity: 1, y: '0px' }}
+          exit={{ opacity: 0, y: '-16px' }}
+          key={index}
+        >
+          {TIPS[index]}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
+
+const TIPS = [
+  'Eat a healthy diet',
+  'Consume less salt and sugar',
+  'Reduce intake of harmful fats',
+  'Avoid harmful use of alcohol',
+  'Don’t smoke',
+  'Be active',
+  'Check your blood pressure regularly',
+  "Talk to someone you trust if you're feeling down",
+  'Take antibiotics only as prescribed',
+  'Have regular check-ups',
+  'Drink enough water',
+  'Practise stretching',
+  'Listen to your body',
+  'Clean your hands properly',
+  'Eat fruits and vegetables',
+  'Do the things that make you happy',
+]
