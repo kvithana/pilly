@@ -132,7 +132,7 @@ function pickMedicationTitle<T extends { text: string; confidence: number }>(ent
       .filter((item) => !!item)
       .map((name) => ({ name }))
 
-    fuse = new Fuse(MEDICATION_TITLES, { includeScore: true, keys: ['name'] })
+    fuse = new Fuse(MEDICATION_TITLES, { includeScore: true, keys: ['name'], minMatchCharLength: 8 })
   }
 
   const matches = entries.map((entry) => ({
@@ -181,8 +181,8 @@ function heuristic({
 }) {
   return (
     predictionConfidence +
-    (numDigits * 0.4) / maxNumDigits +
-    (length * 0.4) / maxLength +
+    (numDigits * 0.2) / maxNumDigits +
+    (length * 0.3) / maxLength +
     (searchScore * (length / maxLength)) / maxSearchScore
   )
 }
