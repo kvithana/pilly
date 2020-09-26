@@ -6,7 +6,7 @@ const client = new PredictionServiceClient()
 
 export async function extract(text: string) {
   const [response] = await client.predict({
-    name: client.modelPath(process.env.GCLOUD_PROJECT!, 'us-central1', 'TEN3354145982437654528'),
+    name: client.modelPath(process.env.GCLOUD_PROJECT!, 'us-central1', 'TEN1865706305591705600'),
     payload: {
       textSnippet: {
         content: text,

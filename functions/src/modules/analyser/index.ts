@@ -64,6 +64,8 @@ export function register(builder: functions.FunctionBuilder) {
         const dosage =
           entities.filter((entity) => entity.label === 'Dosage').sort(descend((entity) => entity.confidence))[0] || null
 
+        console.log(entities)
+
         console.log(medicationTitle)
         console.log(doseFrequency)
         console.log(dosage)
