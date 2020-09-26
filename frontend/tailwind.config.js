@@ -9,6 +9,17 @@ module.exports = {
   important: false,
   separator: ':',
   theme: {
+    extend: {
+      colors: {
+        'brand-primary': '#0021ac',
+        'brand-primary-light': '#4c62c2',
+        'brand-white': '#feffff',
+        'brand-secondary': '#fce2ed',
+        'brand-secondary-alt': '#ffd6dd',
+        'brand-red': '#e7576b',
+        'up-blue-gray': '#1a1a22',
+      },
+    },
     screens: {
       sm: '640px',
       md: '768px',
