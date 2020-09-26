@@ -33,14 +33,17 @@ export function register(builder: functions.FunctionBuilder) {
 
       const result = await extractText(filepath)
 
-      await firestore.collection('ocr').doc(input.id).set({
-        file: filepath,
-        text: result.fullTextAnnotation?.text,
-      })
+      await firestore
+        .collection('ocr')
+        .doc(input.id)
+        .set({
+          file: filepath,
+          text: result.fullTextAnnotation?.text || null,
+        })
 
       functions.logger.info(result.fullTextAnnotation?.text)
 
-      return null
+      return { text: result.fullTextAnnotation?.text || null }
     }),
   }
 }
