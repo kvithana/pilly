@@ -1,0 +1,25 @@
+{
+  "name": "prescription-generator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "date-fns": "^2.16.1",
+    "faker": "^5.1.0",
+    "fs-extra": "^9.0.1",
+    "shuffle-array": "^1.0.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3",
+    "yargs": "^16.0.3"
+  },
+  "devDependencies": {
+    "@types/faker": "^5.1.2",
+    "@types/node": "^14.11.2",
+    "@types/shuffle-array": "^1.0.0",
+    "@types/yargs": "^15.0.7"
+  }
+}
