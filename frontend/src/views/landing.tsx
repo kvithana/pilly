@@ -37,7 +37,6 @@ export function LandingView() {
           'flex-col',
         )}
       >
-        {auth.isPending ? <Loader color="brand-primary" /> : null}
         {!auth.isPending && !auth.currentUser ? <LoginView onLoginSuccess={() => history.push('/home')} /> : null}
       </div>
     </div>
