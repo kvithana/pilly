@@ -46,18 +46,17 @@ export function AddMedication() {
     let times: string[] = []
     switch (schedule) {
       case 1:
-        times = ['9000']
+        times = ['0900']
         break
       case 2:
-        times = ['9000', '1800']
+        times = ['0900', '1800']
         break
 
       case 3:
-        times = ['9000', '1300', '1800']
+        times = ['0900', '1300', '1800']
         break
-
       case 4:
-        times = ['9000', '1300', '1800', '2100']
+        times = ['0900', '1300', '1800', '2100']
         break
       default:
         break

@@ -48,7 +48,7 @@ export function Home() {
           })
         })
         .flat()
-      const orderedEvents: UserMedicationListItem[] = orderBy(withTimes, ['date', 'title'], ['asc', 'asc'])
+      const orderedEvents: UserMedicationListItem[] = orderBy(withTimes, ['time', 'title'], ['asc', 'asc'])
       setUpcoming(orderedEvents.filter((e) => new Date() < e.time))
       setComplete(orderedEvents.filter((e) => new Date() > e.time).reverse())
     }
@@ -150,12 +150,7 @@ function MedicationCard({
       )}
     >
       <div className={cs('w-24', 'h-24', 'mr-4')}>
-        <img
-          src={`/pills/tablet-${dosage}.png`}
-          width="220"
-          height="166"
-          className={cs('w-full', 'h-full', 'object-contain')}
-        />
+        <img src={`/pills/tablet-${dosage}.png`} className={cs('w-full', 'h-full', 'object-contain')} />
       </div>
       <div className={cs('flex-grow', 'flex', 'flex-col')}>
         <div className={cs('flex-grow')}>
