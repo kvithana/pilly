@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [currentUser, setCurrentUser] = useState<firebase.User | null>(null)
   useEffect(() => {
-    const minDelay = delay(1000)
+    const minDelay = delay(100)
 
     const unsub = auth.onAuthStateChanged((user) => {
       Promise.all([minDelay, user ? ensureUser() : Promise.resolve()]).then(() => {

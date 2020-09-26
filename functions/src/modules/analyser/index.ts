@@ -79,6 +79,7 @@ export function register(builder: functions.FunctionBuilder) {
             medicationTitle: medicationTitle.text,
             doseFrequencyNumber,
             dosageNumber,
+            text: result.fullTextAnnotation.text,
           }
         }
       }
