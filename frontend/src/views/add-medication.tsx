@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button } from '../components'
 import { cs } from '../cs'
 
 export function AddMedication() {
-  const history = useHistory()
+  const history = useHistory<
+    { medicationTitle: string; doseFrequencyNumber: number; dosageNumber: number } | undefined
+  >()
+
+  useEffect(() => {
+    if (!history.location.state?.medicationTitle) {
+      history.replace('/scan')
+    }
+  }, [history.location.state])
+
+  const medicationTitle = history.location.state?.medicationTitle || null
+  const doseFrequencyNumber = history.location.state?.doseFrequencyNumber || null
+  const dosageNumber = history.location.state?.dosageNumber
+
+  console.log({ medicationTitle, doseFrequencyNumber, dosageNumber })
 
   return (
     <div className={cs('min-h-screen', 'bg-brand-primary', 'text-brand-white')}>
@@ -17,7 +31,7 @@ export function AddMedication() {
           <i className={cs('fas', 'fa-prescription-bottle-alt', 'text-brand-white', 'text-3xl', 'mt-5')} />
           <div className={cs('m-4')} />
           <h1 className={cs('font-semibold', 'flex', 'items-center', 'mb-2', 'text-center')}>
-            <span className={cs('text-3xl')}>Abacavir/Lamivudine GH 600/300</span>{' '}
+            <span className={cs('text-3xl')}>{medicationTitle}</span>
           </h1>
           <div className={cs('font-thin', 'items-center', 'flex', 'justify-center')}>
             <button className={cs('border-2', 'border-white', 'text-xs', 'py-1', 'px-2', 'rounded-full')}>

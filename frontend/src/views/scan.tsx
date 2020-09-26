@@ -118,15 +118,13 @@ export function ScanView() {
     const id = nanoid()
     try {
       const snapshot = await storage.ref(id).put(blob)
-      const {
-        data: { text },
-      } = await functions.httpsCallable('analyser-analyse')({
+      const { data } = await functions.httpsCallable('analyser-analyse')({
         bucket: snapshot.ref.bucket,
         path: snapshot.ref.fullPath,
         id,
       })
 
-      history.push('/add-medication', { id })
+      history.push('/add-medication', { id, ...data })
     } finally {
       setProcessing(false)
       capturer.current?.play()
