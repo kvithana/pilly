@@ -10,19 +10,25 @@ export function Button({
   return (
     <button
       type={type as React.ButtonHTMLAttributes<HTMLButtonElement>['type']}
-      className={cs(
-        'h-16',
-        'px-12',
-        'rounded-full',
-        'border-2',
-        'border-black',
-        'font-bold',
-        'text-2xl',
-        'focus:outline-none',
-        'focus:shadow-outline',
-        'active:bg-black',
-        'active:text-white',
-      )}
+      className={
+        cs(
+          'h-16',
+          'px-10',
+          'rounded-full',
+          // 'border-2',
+          // 'border-black',
+          'font-semibold',
+          'text-2xl',
+          'bg-brand-secondary',
+          'text-brand-primary',
+          // 'focus:outline-none',
+          // 'focus:shadow-outline',
+          // 'active:bg-black',
+          // 'active:text-white',
+        ) +
+        ' ' +
+        className
+      }
       {...rest}
     >
       {children}
