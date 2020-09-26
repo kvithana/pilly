@@ -30,6 +30,7 @@
     "@testing-library/user-event": "^7.1.2",
     "classnames": "^2.2.6",
     "clipboardy": "^2.3.0",
+    "date-fns": "^2.16.1",
     "firebase": "^7.21.1",
     "framer-motion": "^2.7.4",
     "history": "4.10.1",
