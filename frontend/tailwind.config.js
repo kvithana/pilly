@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       colors: {
         'brand-primary': '#0021ac',
+        'brand-primary-darker': '#010569',
         'brand-primary-light': '#4c62c2',
         'brand-white': '#feffff',
         'brand-secondary': '#fce2ed',

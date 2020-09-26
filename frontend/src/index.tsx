@@ -6,6 +6,10 @@ import './index.css'
 import * as serviceWorker from './serviceWorker'
 import './styles/generated/tailwind.css'
 
+// Font Awesome
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
+
 const history = createBrowserHistory()
 
 ReactDOM.render(
