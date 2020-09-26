@@ -149,7 +149,7 @@ function MedicationCard({
         muted ? ['opacity-50'] : [],
       )}
     >
-      <div className={cs('w-24', 'h-24', 'mr-4')}>
+      <div className={cs('w-24', 'h-24', 'mr-4')} style={{ minWidth: '6rem' }}>
         <img src={`/pills/tablet-${dosage}.png`} className={cs('w-full', 'h-full', 'object-contain')} />
       </div>
       <div className={cs('flex-grow', 'flex', 'flex-col')}>
