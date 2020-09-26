@@ -71,10 +71,12 @@ if (firebase.messaging.isSupported()) {
     // var primaryKey = notification.data.transactionId
     var action = e.action
 
-    if (action === 'close') {
+    if (action === 'close' || action === 'take') {
       notification.close()
+    }
+    if (action === 'view') {
+      clients.openWindow(notification.data.callback)
     } else {
-      clients.openWindow('http://www.google.com')
       notification.close()
     }
   })

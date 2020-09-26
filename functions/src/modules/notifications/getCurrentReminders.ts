@@ -13,6 +13,7 @@ export const getCurrentReminders = async (uid: string, tz = 'Australia/Melbourne
   // search for a time like 0915
   const searchString = format(zonedDate, 'kkmm')
 
+  functions.logger.log('searching', searchString)
   // get medications which should be notified on this minute
   const notifyMeds = await admin
     .firestore()
@@ -25,6 +26,7 @@ export const getCurrentReminders = async (uid: string, tz = 'Australia/Melbourne
       throw e
     })
 
+  functions.logger.info('notifying user', uid, notifyMeds)
   // only return meds with notifications enabled
   return notifyMeds.filter((m) => m.data.notificationsEnabled)
 }

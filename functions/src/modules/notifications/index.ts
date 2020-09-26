@@ -24,12 +24,19 @@ export function register(builder: functions.FunctionBuilder) {
           medications.forEach((med) => {
             const options: NotificationOptions = {
               data: { notificationId: med.id, callback: `/reminder/${med.id}` },
-              body: `It's time to take medication xd ${med.data.title}.`,
+              vibrate: [200, 100, 200, 100, 200, 100, 400],
+              actions: [
+                { action: 'view', title: 'Info', icon: 'images/yes.png' },
+                { action: 'take', title: 'I took it!', icon: 'images/no.png' },
+              ],
+              body: `It's time to take your medication: ${med.data.title}.`,
+              icon: 'https://kal.im/wp-content/uploads/2020/09/android-chrome-512x512-1.png',
             }
             // for each registered device per user
             user.data.notificationTokens.forEach((tokenData) => {
               messages.push({
                 data: {
+                  title: '💊 Pill Time',
                   options: JSON.stringify(options),
                 },
                 token: tokenData.token,
@@ -41,12 +48,14 @@ export function register(builder: functions.FunctionBuilder) {
         }
 
         // add to promises array
-        messagePromises.push(
-          admin
-            .messaging()
-            .sendAll(messages)
-            .catch((err) => functions.logger.error(`error with notifying user ${user.id}:`, err)),
-        )
+        if (messages.length) {
+          messagePromises.push(
+            admin
+              .messaging()
+              .sendAll(messages)
+              .catch((err) => functions.logger.error(`error with notifying user ${user.id}:`, err)),
+          )
+        }
       }
 
       // wait for all notifications to send
