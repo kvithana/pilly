@@ -13,6 +13,8 @@ interface UserMedicationData extends firebase.firestore.DocumentData {
   notificationTimes: string[]
   notificationsEnabled: boolean
   title: string
+  frequency: number
+  dosage: number
 }
 
 /**

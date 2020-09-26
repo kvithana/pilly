@@ -1,12 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button } from '../components'
 import { cs } from '../cs'
+import { toast } from 'react-toastify'
+import { AuthContext } from '../contexts/AuthContext'
+import { firestore } from '../firebase'
 
 export function AddMedication() {
   const history = useHistory<
     { medicationTitle: string; doseFrequencyNumber: number; dosageNumber: number } | undefined
   >()
+  const [dosage, setDosage] = useState(history.location.state?.dosageNumber || 1)
+  const [schedule, setSchedule] = useState(history.location.state?.doseFrequencyNumber || 1)
+  const [medicationTitle, setMedicationTitle] = useState(history.location.state?.medicationTitle || '')
+  const { currentUser } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!history.location.state?.medicationTitle) {
@@ -14,11 +22,55 @@ export function AddMedication() {
     }
   }, [history.location.state])
 
-  const medicationTitle = history.location.state?.medicationTitle || null
-  const doseFrequencyNumber = history.location.state?.doseFrequencyNumber || null
-  const dosageNumber = history.location.state?.dosageNumber || null
+  const onChangeMedicationClick = () => {
+    toast('Not implemented yet 😭')
+  }
 
-  console.log({ medicationTitle, doseFrequencyNumber, dosageNumber })
+  const onDosageChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    //@ts-ignore
+    setDosage(e.target.value)
+  }
+
+  const onScheduleChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    //@ts-ignore
+    setSchedule(e.target.value)
+  }
+
+  const onAddMedication = () => {
+    let times: string[] = []
+    switch (schedule) {
+      case 1:
+        times = ['9000']
+        break
+      case 2:
+        times = ['9000', '1800']
+        break
+
+      case 3:
+        times = ['9000', '1300', '1800']
+        break
+
+      case 4:
+        times = ['9000', '1300', '1800', '2100']
+        break
+      default:
+        break
+    }
+    if (currentUser) {
+      firestore
+        .collection(`users/${currentUser.uid}/medications/`)
+        .add({
+          frequency: schedule,
+          dosage,
+          title: medicationTitle,
+          notificationsEnabled: true,
+          notificationTimes: times,
+        } as UserMedicationData)
+        .then(() => history.push('/home'))
+        .catch((e) => console.error(e))
+        .finally(() => setLoading(false))
+    }
+  }
 
   const goBack = () => {
     history.push('/scan')
@@ -40,7 +92,10 @@ export function AddMedication() {
             <span className={cs('text-3xl')}>{medicationTitle}</span>
           </h1>
           <div className={cs('font-thin', 'items-center', 'flex', 'justify-center')}>
-            <button className={cs('border-2', 'border-white', 'text-xs', 'py-1', 'px-2', 'rounded-full')}>
+            <button
+              onClick={onChangeMedicationClick}
+              className={cs('border-2', 'border-white', 'text-xs', 'py-1', 'px-2', 'rounded-full')}
+            >
               Change medication <i className={cs('fas', 'fa-pen')}></i>
             </button>
           </div>
@@ -53,19 +108,22 @@ export function AddMedication() {
           <div>
             <label className={cs('text-sm', 'uppercase', 'tracking-wide', 'font-semibold', 'mb1')}>Dosage</label>
           </div>
-          <Select>
+          <Select className={cs('text-brand-primary')} onChange={onDosageChange} value={dosage}>
             <option value="1">One tablet</option>
             <option value="2">Two tablets</option>
+            <option value="3">Three tablets</option>
+            <option value="4">Four tablets</option>
           </Select>
         </div>
         <div className={cs('px-12')}>
           <div>
             <label className={cs('text-sm', 'uppercase', 'tracking-wide', 'font-semibold')}>Schedule</label>
           </div>
-          <Select>
+          <Select onChange={onScheduleChange} value={schedule}>
             <option value="1">Once a day</option>
             <option value="2">Two times a day</option>
             <option value="3">Three time a day</option>
+            <option value="4">Four time a day</option>
           </Select>
         </div>
       </div>
@@ -73,7 +131,8 @@ export function AddMedication() {
         <div className="m-5 mb-10">
           <Button
             className={cs('w-full', 'bg-brand-secondary', 'text-brand-primary')}
-            onClick={() => history.push('/home')}
+            onClick={onAddMedication}
+            pending={loading}
           >
             Add medication
           </Button>
