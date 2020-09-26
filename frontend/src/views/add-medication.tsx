@@ -68,6 +68,7 @@ export function AddMedication() {
         .add({
           frequency: schedule,
           dosage,
+          display: true,
           title: niceText(medicationTitle),
           notificationsEnabled: true,
           notificationTimes: times,

@@ -70,3 +70,4 @@ node_modules/
 secret/
 
 .DS_Store
+functions/service-account.json
