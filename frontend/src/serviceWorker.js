@@ -59,7 +59,7 @@ function registerValidSW(swUrl, config) {
     .register(swUrl)
     .then((registration) => {
       if (firebase.messaging) {
-        firebase.messaging.useServiceWorker(registration)
+        firebase.messaging().useServiceWorker(registration)
       }
       registration.onupdatefound = () => {
         const installingWorker = registration.installing
