@@ -33,36 +33,55 @@ async function main() {
 main()
 
 function generate(): AnnnotatedText {
-  let phrases: Phrase[] = []
+  let phrases: Phrase[][] = []
 
   const noiseCount = 4 + Math.floor(Math.random() * 8)
   for (let i = 0; i < noiseCount; i++) {
-    phrases.push({ type: 'Noise', text: pick(Noise) })
+    phrases.push([{ type: 'Noise', text: pick(Noise) }])
   }
 
   for (let i = 0; i < Math.floor(Math.random() * 4); i++) {
-    phrases.push({ type: 'Noise', text: faker.phone.phoneNumber() })
+    phrases.push([{ type: 'Noise', text: faker.phone.phoneNumber() }])
   }
 
-  phrases.push({ type: 'MedicationTitle', text: pick(MedicationTitle) })
-  phrases.push({ type: 'Dosage', text: pick(Dosage) })
-  phrases.push({ type: 'DoseFrequency', text: pick(DoseFrequency) })
-  phrases.push({ type: 'ActiveIngredient', text: pick(ActiveIngredient) })
-  phrases.push({ type: 'Noise', text: [faker.name.firstName(), faker.name.lastName()].join(' ') })
-  phrases.push({ type: 'Noise', text: ['Dr', faker.name.firstName(), faker.name.lastName()].join(' ') })
-  phrases.push({ type: 'Noise', text: formatDate(faker.date.future(), 'dd/MM/yyyy') })
+  const i = Math.floor(Math.random() * MedicationTitle.length) //Used to select medication title and its corresponding active ingredient
+  if (Math.random() < 0.25) {
+    phrases.push([{ type: 'MedicationTitle', text: MedicationTitle[i] }])
+    phrases.push([{ type: 'ActiveIngredient', text: ActiveIngredient[i] }])
+  } else {
+    phrases.push([
+      { type: 'MedicationTitle', text: MedicationTitle[i] },
+      { type: 'ActiveIngredient', text: ActiveIngredient[i] },
+    ])
+  }
 
-  shuffle(phrases)
+  if (Math.random() < 0.25) {
+    phrases.push([{ type: 'DoseFrequency', text: pick(DoseFrequency) }])
+    phrases.push([{ type: 'Dosage', text: pick(Dosage) }])
+  } else {
+    phrases.push([
+      { type: 'Dosage', text: pick(Dosage) },
+      { type: 'DoseFrequency', text: pick(DoseFrequency) },
+    ])
+  }
+
+  phrases.push([{ type: 'Noise', text: [faker.name.firstName(), faker.name.lastName()].join(' ') }])
+  phrases.push([{ type: 'Noise', text: ['Dr', faker.name.firstName(), faker.name.lastName()].join(' ') }])
+  phrases.push([{ type: 'Noise', text: formatDate(faker.date.future(), 'dd/MM/yyyy') }])
+
+  let shuffledPhrases: Phrase[] = flatten(shuffle(phrases))
 
   // add newlines
-  phrases = phrases.map((phrase, i) => {
+  shuffledPhrases = shuffledPhrases.map((phrase: Phrase, i: number) => {
     let text = phrase.text
 
     // Randomly break the text
     if (Math.random() < 0.3) {
-      const words = text.split(' ')
-      const point = Math.floor(Math.random() * words.length)
-      text = words.slice(0, point).join(' ') + '\n' + words.slice(point).join(' ')
+      if (!(phrase.type === 'MedicationTitle')) {
+        const words = text.split(' ')
+        const point = Math.floor(Math.random() * words.length)
+        text = words.slice(0, point).join(' ') + '\n' + words.slice(point).join(' ')
+      }
     }
 
     let suffix = '\n'
@@ -82,11 +101,11 @@ function generate(): AnnnotatedText {
     }
   })
 
-  const annotations = annotate(phrases).filter((annotation) => annotation.display_name !== 'Noise')
+  const annotations = annotate(shuffledPhrases).filter((annotation) => annotation.display_name !== 'Noise')
   return {
     annotations,
     text_snippet: {
-      content: phrases.map((phrase) => phrase.text).join(''),
+      content: shuffledPhrases.map((phrase) => phrase.text).join(''),
     },
   }
 }
@@ -143,4 +162,8 @@ function load(filename: string) {
 
 function pick(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)]
+}
+
+function flatten<T>(arr: T[][]) {
+  return arr.reduce((a, b) => a.concat(b), [] as T[])
 }
