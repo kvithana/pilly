@@ -22,7 +22,7 @@ export function App({ history }: { history: History }) {
             </Route>
             <Route path="/home" component={Home} />
             <Route path="/scan" component={ScanView} />
-            <Route path="/login" component={LogInView} />
+            <Route path="/login" component={LoginView} />
             <Route path="/reminder/:medication" component={ReminderView} />
             <Route path="*">
               <div></div>
