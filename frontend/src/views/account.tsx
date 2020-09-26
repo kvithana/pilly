@@ -86,6 +86,7 @@ export function AccountView() {
       setRegistrationLoading(true)
       requestNotificationPermission(currentUser.uid)
         .then(() => {
+          setDeviceRegistered(true)
           toast("Awesome! I will remind you when it's time to take your meds 💊.")
         })
         .catch((err) => {
@@ -101,6 +102,7 @@ export function AccountView() {
         .firestore()
         .doc(`users/${currentUser.uid}`)
         .update({ notificationTokens: [], notificationsEnabled: false })
+      setDeviceRegistered(false)
     }
   }
 
