@@ -5,27 +5,27 @@ import { cs } from '../cs'
 export const ReminderView = () => {
   return (
     <div className={cs('min-h-screen', 'bg-brand-primary')}>
-      <div className={cs('h-full', 'p-5', 'flex', 'flex-col')}>
-        <div>
-          <i className={cs('fas', 'fa-chevron-left', 'text-brand-white', 'text-2xl', 'mt-10')} />
+      <div className={cs('h-full', 'flex', 'flex-col')}>
+        <div className={cs('px-5', 'py-5')}>
+          <i className={cs('fas', 'fa-chevron-left', 'text-brand-white', 'text-2xl')} />
         </div>
 
         <div className={cs('w-full', 'flex', 'items-center', 'flex-col', 'text-brand-white', 'pb-8')}>
           <i className={cs('fas', 'fa-bell', 'text-brand-white', 'text-3xl', 'mt-5')} />
           <div className={cs('m-4')} />
-          <span className={cs('text-2xl', 'font-semibold')}>Loratadine, 10mg</span>
+          <span className={cs('text-3xl', 'font-semibold')}>Loratadine, 10mg</span>
           <span className={cs('font-thin')}>1 pill, once per day</span>
         </div>
 
         <div className={cs('w-full', 'flex', 'items-center', 'flex-col', 'text-brand-white', 'py-3')}>
-          <img src="/pills/tablet.png" className={cs('transform scale-75')} />
+          <img src="/pills/tablet.png" className={cs('w-24', 'h-24')} />
         </div>
         <div className={cs('w-full', 'flex', 'items-center', 'flex-col', 'text-brand-white', 'py-6')}>
           <span className={cs('text-4xl', 'font-bold')} style={{ letterSpacing: '0.1em' }}>
             08:00 AM
           </span>
         </div>
-        <div className={cs('w-full', 'flex', 'text-brand-white', 'py-8')}>
+        <div className={cs('w-full', 'flex', 'text-brand-white', 'py-8', 'px-6')}>
           <div className={cs('text-4xl', 'font-bold', '-mt-2')}>
             <i className={cs('fas', 'fa-info-circle', 'text-brand-white', 'text-3xl', 'mr-4')} />
           </div>
