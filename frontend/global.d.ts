@@ -15,6 +15,7 @@ interface UserMedicationData extends firebase.firestore.DocumentData {
   title: string
   frequency: number
   dosage: number
+  text?: string
 }
 
 /**

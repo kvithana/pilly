@@ -8,13 +8,19 @@ import { firestore } from '../firebase'
 
 export function AddMedication() {
   const history = useHistory<
-    { medicationTitle: string; doseFrequencyNumber: number; dosageNumber: number } | undefined
+    { medicationTitle: string; doseFrequencyNumber: number; dosageNumber: number; text: string } | undefined
   >()
   const [dosage, setDosage] = useState(history.location.state?.dosageNumber || 1)
   const [schedule, setSchedule] = useState(history.location.state?.doseFrequencyNumber || 1)
   const [medicationTitle, setMedicationTitle] = useState(history.location.state?.medicationTitle || '')
   const { currentUser } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
+
+  const niceText = (s: string) => {
+    const splitted = s.split(' ')
+    const nice = splitted.map((t) => t.slice(0, 1).toUpperCase() + t.slice(1).toLowerCase())
+    return nice.join(' ')
+  }
 
   useEffect(() => {
     if (!history.location.state?.medicationTitle) {
@@ -62,9 +68,10 @@ export function AddMedication() {
         .add({
           frequency: schedule,
           dosage,
-          title: medicationTitle,
+          title: niceText(medicationTitle),
           notificationsEnabled: true,
           notificationTimes: times,
+          text: history.location.state?.text || '',
         } as UserMedicationData)
         .then(() => history.push('/home'))
         .catch((e) => console.error(e))
