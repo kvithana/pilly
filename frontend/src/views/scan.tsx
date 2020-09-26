@@ -215,6 +215,7 @@ export function ScanView() {
                   'justify-center',
                   'rounded-lg',
                   'text-lg',
+                  'px-5',
                 )}
               >
                 <p className={cs('font-bold')}>Health tip:</p>
@@ -304,6 +305,7 @@ function Tips() {
           animate={{ opacity: 1, y: '0px' }}
           exit={{ opacity: 0, y: '-16px' }}
           key={index}
+          className={cs('text-center')}
         >
           {TIPS[index]}
         </motion.div>
