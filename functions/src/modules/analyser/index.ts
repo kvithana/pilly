@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import admin from 'firebase-admin'
 import * as z from 'zod'
 import { extractText } from './_vision'
+import { extract } from './entity-extraction'
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
@@ -40,6 +41,12 @@ export function register(builder: functions.FunctionBuilder) {
           file: filepath,
           text: result.fullTextAnnotation?.text || null,
         })
+
+      if (result.fullTextAnnotation?.text) {
+        const entities = await extract(result.fullTextAnnotation.text)
+
+        console.log(entities)
+      }
 
       functions.logger.info(result.fullTextAnnotation?.text)
 

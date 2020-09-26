@@ -4,6 +4,5 @@
 }
 
 .overlay {
-  background: rgba(240, 240, 240, 0.92);
-  backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(240, 240, 240, 0.6);
 }

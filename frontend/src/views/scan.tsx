@@ -1,10 +1,13 @@
+import * as clipboardy from 'clipboardy'
+import { nanoid } from 'nanoid'
 import React, { useEffect, useRef, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import { Button } from '../components/button'
+import { Square } from '../components/square'
 import { cs } from '../cs'
 import { functions, storage } from '../firebase'
 import styles from './scan.module.css'
-import { nanoid } from 'nanoid'
-import * as clipboardy from 'clipboardy'
 
 class PhotoCapturer {
   video: HTMLVideoElement
@@ -71,6 +74,7 @@ class PhotoCapturer {
 }
 
 export function ScanView() {
+  const history = useHistory()
   const canvas = useRef<HTMLCanvasElement>(null!)
   const capturer = useRef<PhotoCapturer>(null!)
   const [permission, setPermission] = useState<PermissionState | null>(null)
@@ -121,46 +125,105 @@ export function ScanView() {
         id,
       })
 
-      console.log(text)
-      setResult(text)
+      history.push('/add-medication', { id })
     } finally {
       setProcessing(false)
-      capturer.current.play()
+      capturer.current?.play()
     }
   }
 
   return (
-    <div className={cs('min-h-screen', 'flex', 'flex-col', 'items-center', 'justify-center')}>
-      <div className={cs('p-4')}>
-        <div className={cs('w-full', 'border-2', 'border-black', 'rounded-lg', 'overflow-hidden')}>
-          <canvas ref={canvas} className={cs(styles.canvas)}></canvas>
-        </div>
+    <div className={cs('min-h-screen', 'flex', 'flex-col', 'items-center', 'justify-center', 'bg-brand-secondary')}>
+      <div className={cs('p-4', 'w-full')}>
+        <Square className={cs('w-full')}>
+          <div
+            className={cs(
+              'w-full',
+              'border-2',
+              'border-white',
+              'bg-brand-white',
+              'text-brand-primary',
+              'rounded-lg',
+              'overflow-hidden',
+              'h-full',
+              'relative',
+            )}
+          >
+            <canvas ref={canvas} className={cs(styles.canvas)}></canvas>
+            {permission === 'prompt' ? (
+              <button
+                onClick={handleStartButton}
+                className={cs(
+                  'absolute',
+                  'top-0',
+                  'right-o',
+                  'w-full',
+                  'h-full',
+                  'flex',
+                  'items-center',
+                  'justify-center',
+                )}
+              >
+                <div>
+                  <i className={cs('fas', 'fa-camera', 'text-3xl')}></i>
+                  <br />
+                  Tap to activate camera.
+                </div>
+              </button>
+            ) : null}
+            {permission === 'denied' ? (
+              <button
+                onClick={handleStartButton}
+                className={cs(
+                  'absolute',
+                  'top-0',
+                  'right-o',
+                  'w-full',
+                  'h-full',
+                  'flex',
+                  'items-center',
+                  'justify-center',
+                )}
+              >
+                <div style={{ maxWidth: '70%' }} className={cs('pt-12')}>
+                  <i className={cs('fas', 'fa-camera', 'text-3xl')}></i>
+                  <br />
+                  Camera access was blocked. Please enable camera access in your browser settings
+                </div>
+              </button>
+            ) : null}
+            {processing ? (
+              <div
+                className={cs(
+                  styles.overlay,
+                  'absolute',
+                  'top-0',
+                  'right-o',
+                  'w-full',
+                  'h-full',
+                  'flex',
+                  'items-center',
+                  'justify-center',
+                  'rounded-lg',
+                )}
+              >
+                <p className={cs('text-lg')}>Scanning...</p>
+              </div>
+            ) : null}
+          </div>
+        </Square>
       </div>
       <div>
         <p>Place the prescription label within the frame.</p>
       </div>
-      {permission === 'prompt' ? <button onClick={handleStartButton}>Start</button> : null}
-      <div className={cs('fixed', 'bottom-0', 'left-0', 'right-0', 'flex', 'justify-center', 'pb-8')}>
-        <Button onClick={capture}>Scan</Button>
-      </div>
-      {processing ? (
-        <div
-          className={cs(
-            styles.overlay,
-            'fixed',
-            'top-0',
-            'right-0',
-            'bottom-0',
-            'left-0',
-            'flex',
-            'flex-col',
-            'justify-center',
-            'items-center',
-          )}
-        >
-          <p className={cs('text-lg')}>Processing</p>
+      {permission === 'granted' ? (
+        <div className={cs('fixed', 'bottom-0', 'left-0', 'right-0', 'flex', 'justify-center', 'pb-8')}>
+          <Button onClick={capture} invert>
+            Scan
+          </Button>
         </div>
       ) : null}
+
       {result ? (
         <div
           className={cs(
@@ -180,7 +243,9 @@ export function ScanView() {
             <CopyText text={result} />
           </pre>
           <div className={cs('fixed', 'bottom-0', 'left-0', 'right-0', 'flex', 'justify-center', 'pb-8')}>
-            <Button onClick={() => setResult(null)}>Done</Button>
+            <Button onClick={() => setResult(null)} invert>
+              Done
+            </Button>
           </div>
         </div>
       ) : null}

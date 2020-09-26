@@ -15,8 +15,8 @@ export const LoginView = ({ onLoginSuccess }: { onLoginSuccess: () => void }) =>
   }
 
   return (
-    <div className={cs('container', 'mx-auto')}>
-      <Button onClick={login}>Sign in with Google</Button>
-    </div>
+    <Button invert onClick={login}>
+      Sign in
+    </Button>
   )
 }

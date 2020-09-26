@@ -1,12 +1,21 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { IconButton } from '../components'
 import { cs } from '../cs'
 
 export function Home() {
+  const history = useHistory()
+
   return (
     <div className={cs('bg-brand-secondary', 'text-brand-primary', 'flex', 'flex-col')}>
       <div className={cs('h-64')}></div>
-      <div className={cs('bg-brand-primary', 'rounded-t-lg', 'text-brand-secondary', 'flex-grow', 'py-8', 'px-6')}>
-        <h2 className={cs('font-bold', 'text-2xl', 'tracking-wide', 'mb-6')}>To take</h2>
+      <div className={cs('bg-brand-primary', 'rounded-t-lg', 'text-brand-secondary', 'flex-grow', 'py-6', 'px-6')}>
+        <div className={cs('flex', 'justify-between', 'items-center', 'mb-6')}>
+          <h2 className={cs('font-bold', 'text-2xl', 'tracking-wide')}>To take</h2>
+          <IconButton className={cs('-mt-1', '-mr-1')} onClick={() => history.push('/scan')}>
+            <i className={cs('fas', 'fa-plus')}></i>
+          </IconButton>
+        </div>
         <MedicationCard />
       </div>
     </div>
@@ -31,7 +40,7 @@ function MedicationCard() {
               <span>09:00AM</span>
             </div>
           </div>
-          <i className={cs('far', 'fa-bell', 'leading-none', 'inline-block', 'h-4')}></i>
+          <i className={cs('fas', 'fa-bell', 'leading-none', 'inline-block', 'h-4')}></i>
         </div>
       </div>
     </div>
