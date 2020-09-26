@@ -1,6 +1,5 @@
 // Import FirebaseAuth and firebase.
-import React, { useMemo } from 'react'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+import React from 'react'
 import { Button } from '../components'
 import { cs } from '../cs'
 import { auth, firebase } from '../firebase'

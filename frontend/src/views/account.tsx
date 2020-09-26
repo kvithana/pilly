@@ -5,7 +5,8 @@ import { UserDataContext } from '../contexts/UserDataContext'
 import { Button } from '../components'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { messaging, firebase } from '../firebase'
+import firebase from 'firebase/app'
+import 'firebase/messaging'
 
 /**
  * Requests permission to send notifications to the user and
@@ -14,46 +15,48 @@ import { messaging, firebase } from '../firebase'
  */
 const requestNotificationPermission = async (uid: string) => {
   if (firebase.messaging.isSupported()) {
-    return messaging.getToken().then(async (token) => {
-      console.log('[Notifications 📲] token:', token)
-      let currentTokens = await firebase
-        .firestore()
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((d) => d.data() as UserProfileData)
-        .then((profile) => profile.notificationTokens)
-
-      if (currentTokens) {
-        let index = -1
-        for (const [i, device] of Array.from(currentTokens.entries())) {
-          if (device.deviceTitle === navigator.userAgent) {
-            index = i
+    return firebase
+      .messaging()
+      .getToken()
+      .then(async (token) => {
+        console.log('[Notifications 📲] token:', token)
+        let currentTokens = await firebase
+          .firestore()
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((d) => d.data() as UserProfileData)
+          .then((profile) => profile.notificationTokens)
+        if (currentTokens) {
+          let index = -1
+          for (const [i, device] of Array.from(currentTokens.entries())) {
+            if (device.deviceTitle === navigator.userAgent) {
+              index = i
+            }
           }
-        }
-        if (index !== -1) {
-          currentTokens.splice(index, 1)
-        }
-        currentTokens.push({
-          token,
-          created: firebase.firestore.Timestamp.fromDate(new Date()),
-          deviceTitle: navigator.userAgent,
-        })
-      } else {
-        currentTokens = [
-          {
+          if (index !== -1) {
+            currentTokens.splice(index, 1)
+          }
+          currentTokens.push({
             token,
             created: firebase.firestore.Timestamp.fromDate(new Date()),
             deviceTitle: navigator.userAgent,
-          },
-        ]
-      }
-      console.log('[Notifications 📲] writing:', currentTokens)
-      await firebase.firestore().doc(`users/${uid}`).update({
-        notificationTokens: currentTokens,
-        notificationsEnabled: true,
+          })
+        } else {
+          currentTokens = [
+            {
+              token,
+              created: firebase.firestore.Timestamp.fromDate(new Date()),
+              deviceTitle: navigator.userAgent,
+            },
+          ]
+        }
+        console.log('[Notifications 📲] writing:', currentTokens)
+        await firebase.firestore().doc(`users/${uid}`).update({
+          notificationTokens: currentTokens,
+          notificationsEnabled: true,
+        })
       })
-    })
   } else {
     toast.error('This device is not supported.')
   }
