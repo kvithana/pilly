@@ -8,12 +8,11 @@ const client = new vision.ImageAnnotatorClient()
  * @param location location of image in bucket `gs://...`
  */
 export const extractText = async (location: string) => {
-  try {
-    const response = await client.documentTextDetection(location)
-    return response[0]
-  } catch (e) {
-    // log error
-    functions.logger.error('error with extracting text from image:', location, e)
-    throw e
+  const [response] = await client.documentTextDetection(location)
+
+  if (response.error) {
+    throw new functions.https.HttpsError('internal', response.error.message!, response.error.details)
   }
+
+  return response
 }

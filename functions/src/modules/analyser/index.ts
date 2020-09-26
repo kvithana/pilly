@@ -7,6 +7,8 @@ import { extractText } from './_vision'
 // https://firebase.google.com/docs/functions/typescript
 
 const InputSchema = z.object({
+  bucket: z.string(),
+  path: z.string(),
   id: z.string(),
 })
 
@@ -27,11 +29,7 @@ export function register(builder: functions.FunctionBuilder) {
 
       await firestore.collection('ocr').doc('346P4In1VIqPaj6duDRgA').delete()
 
-      let filepath = input.id
-      if (filepath.startsWith('/')) {
-        filepath = filepath.substr(1)
-      }
-      filepath = 'gs://codebrew-2020.appspot.com/' + filepath
+      const filepath = 'gs://' + input.bucket + '/' + input.path
 
       const result = await extractText(filepath)
 

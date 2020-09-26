@@ -68,3 +68,5 @@ node_modules/
 .vscode/
 
 secret/
+
+.DS_Store
