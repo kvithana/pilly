@@ -9,11 +9,11 @@ import * as clipboardy from 'clipboardy'
 class PhotoCapturer {
   video: HTMLVideoElement
   canvas: HTMLCanvasElement
-  rafId: number = -1
-  playing: boolean = false
-  size: number = 0
+  rafId = -1
+  playing = false
+  size = 0
   stream: MediaStream | undefined
-  paused: boolean = false
+  paused = false
 
   constructor(canvas: HTMLCanvasElement) {
     this.video = document.createElement('video')
@@ -40,8 +40,8 @@ class PhotoCapturer {
   update() {
     if (!this.playing) return
     const ctx = this.canvas.getContext('2d')!
-    let offsetX = 0.5 * (this.video.videoWidth - this.size)
-    let offsetY = 0.5 * (this.video.videoHeight - this.size)
+    const offsetX = 0.5 * (this.video.videoWidth - this.size)
+    const offsetY = 0.5 * (this.video.videoHeight - this.size)
     ctx.drawImage(this.video, -offsetX, -offsetY, this.video.videoWidth, this.video.videoHeight)
     this.rafId = requestAnimationFrame(() => this.update())
   }
