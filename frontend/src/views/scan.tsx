@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '../components/button'
 import { cs } from '../cs'
 import { functions, storage } from '../firebase'
@@ -84,7 +84,7 @@ export function ScanView() {
       navigator.permissions.query({ name: 'camera' }).then((result) => {
         setPermission(result.state)
         if (result.state === 'granted') {
-          start()
+          capturer.current.start()
         }
 
         result.onchange = function () {
@@ -102,9 +102,9 @@ export function ScanView() {
     }
   }, [])
 
-  const start = useCallback(() => {
+  const handleStartButton = () => {
     capturer.current.start()
-  }, [])
+  }
 
   const capture = async () => {
     setProcessing(true)
@@ -139,7 +139,7 @@ export function ScanView() {
       <div>
         <p>Place the prescription label within the frame.</p>
       </div>
-      {permission === 'prompt' ? <button onClick={start}>Start</button> : null}
+      {permission === 'prompt' ? <button onClick={handleStartButton}>Start</button> : null}
       <div className={cs('fixed', 'bottom-0', 'left-0', 'right-0', 'flex', 'justify-center', 'pb-8')}>
         <Button onClick={capture}>Scan</Button>
       </div>

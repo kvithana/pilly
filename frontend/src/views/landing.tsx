@@ -14,7 +14,7 @@ export function LandingView() {
     if (!auth.isPending && auth.currentUser) {
       history.push('/home')
     }
-  }, [auth])
+  }, [auth, history])
 
   return (
     <div className={cs('min-h-screen', 'bg-brand-secondary', styles.layout, 'pt-16')}>
