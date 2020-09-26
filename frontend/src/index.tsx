@@ -7,8 +7,8 @@ import * as serviceWorker from './serviceWorker'
 import './styles/generated/tailwind.css'
 
 // Font Awesome
-import '@fortawesome/fontawesome-free/css/all.css'
-import '@fortawesome/fontawesome-free/js/all.js'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+// import '@fortawesome/fontawesome-free/js/all.js'
 
 const history = createBrowserHistory()
 
@@ -22,4 +22,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister()
+serviceWorker.register()

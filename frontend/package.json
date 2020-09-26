@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "yarn run build:tailwind && react-scripts build",
+    "build": "yarn run build:tailwind && react-scripts build && yarn run build-sw",
+    "build-sw": "node ./src/sw-build.js",
     "build:tailwind": "postcss tailwind.css -o src/styles/generated/tailwind.css",
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
@@ -38,7 +39,8 @@
     "react-firebaseui": "^4.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "typescript": "3.9.7"
+    "typescript": "3.9.7",
+    "workbox-build": "^5.1.4"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
