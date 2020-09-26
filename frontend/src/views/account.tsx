@@ -115,11 +115,14 @@ export function AccountView() {
   }
   return (
     <div className={cs('bg-brand-primary', 'text-brand-white', 'flex', 'flex-col')}>
-      <div className={cs('h-10')} />
-      <div className="p-5" onClick={() => history.goBack()}>
-        <i className={cs('fas', 'fa-chevron-left', 'text-brand-white', 'text-2xl', 'mt-10')} />
+      <div>
+        <button
+          className={cs('h-16', 'w-16', 'inline-flex', 'items-center', 'justify-center')}
+          onClick={() => history.goBack()}
+        >
+          <i className={cs('fas', 'fa-chevron-left', 'text-brand-white', 'text-2xl')} />
+        </button>
       </div>
-      <div className={cs('h-0')} />
 
       <div className={cs('p-5 font-bold text-4xl')}>
         Hi, {currentUser.displayName ? currentUser.displayName.split(' ')[0] : 'person'}
@@ -140,7 +143,7 @@ export function AccountView() {
               Disable Notifications
             </Button>
           ) : (
-            <Button onClick={enableNotifications} className={cs('w-full', 'mt-5', 'bg-green-500', 'text-brand-white')}>
+            <Button onClick={enableNotifications} className={cs('w-full', 'mt-5')}>
               Enable Notifications
             </Button>
           )}
@@ -148,11 +151,7 @@ export function AccountView() {
         <div>
           <h2 className={cs('font-bold', 'text-2xl', 'tracking-wide', 'mb-3', 'mt-8')}>Install App</h2>
           <p>Install Pilly to your device to quickly see your medications and respond to notifications.</p>
-          {}
-          <Button
-            onClick={() => null}
-            className={cs('w-full', 'mt-8', 'border-2', 'border-green-500', 'text-green-500')}
-          >
+          <Button onClick={() => null} className={cs('w-full', 'mt-8')}>
             Install To Device
           </Button>
         </div>

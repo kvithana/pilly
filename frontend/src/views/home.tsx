@@ -9,16 +9,19 @@ export function Home() {
 
   return (
     <div className={cs('bg-brand-secondary', 'text-brand-primary', 'flex', 'flex-col')}>
-      <div className={cs('h-16', 'flex', 'items-center', 'mt-8')}>
-        <div className={cs('flex-grow', 'pl-5', 'text-xl')}>
-          <span className={cs('font-bold')}>{formatDate(new Date(), 'MMMM')}</span> {formatDate(new Date(), 'yyyy')}
-        </div>
+      <div className={cs('h-16', 'flex', 'items-center')}>
+        <div className={cs('flex-grow')}></div>
         <button
           className={cs('inline-flex', 'items-center', 'justify-center', 'h-16', 'w-16')}
           onClick={() => history.push('/account')}
         >
           <i className={cs('fas', 'fa-bell', 'text-2xl')}></i>
         </button>
+      </div>
+      <div className={cs('h-16', 'flex', 'items-center')}>
+        <div className={cs('flex-grow', 'pl-5', 'text-xl')}>
+          <span className={cs('font-bold')}>{formatDate(new Date(), 'MMMM')}</span> {formatDate(new Date(), 'yyyy')}
+        </div>
       </div>
       <div
         className={cs('h-24', 'px-3', 'mb-5', 'max-w-screen', 'overflow-hidden')}
@@ -47,7 +50,7 @@ function MedicationCard() {
   return (
     <div className={cs('rounded-md', 'bg-brand-white', 'py-5', 'px-6', 'text-brand-primary', 'flex')}>
       <div className={cs('w-24', 'h-24', 'mr-4')}>
-        <img src="/pills/tablet.png" width="220" height="166" className={cs('w-full', 'h-full', 'object-contain')} />
+        <img src="/pills/tablet-1.png" width="220" height="166" className={cs('w-full', 'h-full', 'object-contain')} />
       </div>
       <div className={cs('flex-grow', 'flex', 'flex-col')}>
         <div className={cs('flex-grow')}>
