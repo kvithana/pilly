@@ -3,7 +3,11 @@
     "rootDir": "src",
     "allowJs": true,
     "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -18,5 +22,8 @@
     "target": "es5",
     "module": "esnext"
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "global.d.ts"
+  ]
 }

@@ -5,10 +5,6 @@ import logger from '../util/logger'
 import 'firebase/auth'
 import { AuthContext } from './AuthContext'
 
-interface UserProfileData {
-  lmao: string
-}
-
 export const UserDataContext = React.createContext<{
   userProfile: UserProfileData | null
   forceSub: () => null | void

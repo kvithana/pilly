@@ -40,7 +40,7 @@ export const ReminderView = () => {
       </div>
       <div className={cs('fixed', 'bottom-0', 'w-screen')}>
         <div className="m-5 mb-10">
-          <Button className="w-full">I took the medication</Button>
+          <Button className={cs('w-full', 'bg-brand-secondary', 'text-brand-primary')}>I took the medication</Button>
         </div>
       </div>
     </div>
