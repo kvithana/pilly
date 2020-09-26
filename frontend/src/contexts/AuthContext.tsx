@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import { auth, functions } from '../firebase'
+import { firebase, auth, functions } from '../firebase'
+
 export const AuthContext = React.createContext<{
   currentUser: firebase.User | null
   isPending: boolean
@@ -15,7 +14,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const minDelay = delay(1000)
 
     const unsub = auth.onAuthStateChanged((user) => {
-      Promise.all([minDelay, ensureUser()]).then(() => {
+      Promise.all([minDelay, user ? ensureUser() : Promise.resolve()]).then(() => {
         setCurrentUser(user)
         setPending(false)
       })
