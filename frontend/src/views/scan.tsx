@@ -4,6 +4,7 @@ import { cs } from '../cs'
 import { functions, storage } from '../firebase'
 import styles from './scan.module.css'
 import { nanoid } from 'nanoid'
+import * as clipboardy from 'clipboardy'
 
 class PhotoCapturer {
   video: HTMLVideoElement
@@ -74,6 +75,7 @@ export function ScanView() {
   const capturer = useRef<PhotoCapturer>(null!)
   const [permission, setPermission] = useState<PermissionState | null>(null)
   const [processing, setProcessing] = useState<boolean>(false)
+  const [result, setResult] = useState<string | null>(null)
 
   useEffect(() => {
     capturer.current = new PhotoCapturer(canvas.current)
@@ -120,6 +122,7 @@ export function ScanView() {
       })
 
       console.log(text)
+      setResult(text)
     } finally {
       setProcessing(false)
       capturer.current.play()
@@ -158,6 +161,48 @@ export function ScanView() {
           <p className={cs('text-lg')}>Processing</p>
         </div>
       ) : null}
+      {result ? (
+        <div
+          className={cs(
+            styles.overlay,
+            'fixed',
+            'top-0',
+            'right-0',
+            'bottom-0',
+            'left-0',
+            'flex',
+            'flex-col',
+            'justify-center',
+            'items-center',
+          )}
+        >
+          <pre className={cs('text-mono', 'text-xs', 'max-w-full', 'max-h-full', 'overflow-auto')}>
+            <CopyText text={result} />
+          </pre>
+          <div className={cs('fixed', 'bottom-0', 'left-0', 'right-0', 'flex', 'justify-center', 'pb-8')}>
+            <Button onClick={() => setResult(null)}>Done</Button>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
+}
+
+function CopyText({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (copied) {
+      setTimeout(() => {
+        setCopied(false)
+      }, 2000)
+    }
+  }, [copied])
+
+  const copy = () => {
+    clipboardy.write(text)
+    setCopied(true)
+  }
+
+  return <span onClick={copy}>{copied ? 'Copied to clipboard' : text}</span>
 }
