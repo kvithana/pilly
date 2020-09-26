@@ -3,7 +3,10 @@ import admin from 'firebase-admin'
 import * as z from 'zod'
 import { extractText } from './_vision'
 import { extract } from './entity-extraction'
-import { descend } from 'ramda'
+import { descend, comparator } from 'ramda'
+import fs from 'fs'
+import path from 'path'
+import Fuse from 'fuse.js'
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
@@ -46,10 +49,7 @@ export function register(builder: functions.FunctionBuilder) {
       if (result.fullTextAnnotation?.text) {
         const entities = await extract(result.fullTextAnnotation.text)
 
-        const medicationTitle =
-          entities
-            .filter((entity) => entity.label === 'MedicationTitle')
-            .sort(descend((entity) => entity.confidence))[0] || null
+        const medicationTitle = pickMedicationTitle(entities.filter((entity) => entity.label === 'MedicationTitle'))
 
         const activeIngredient =
           entities
@@ -118,4 +118,81 @@ function findNumber(str: string): number {
   }
 
   return 1
+}
+
+let MEDICATION_TITLES: { name: string }[] = []
+let fuse: Fuse<{ name: string }> | undefined = undefined
+
+function pickMedicationTitle<T extends { text: string; confidence: number }>(entries: T[]): T | null {
+  if (!MEDICATION_TITLES.length) {
+    MEDICATION_TITLES = fs
+      .readFileSync(path.resolve(__dirname, '../../../MedicationTitle.txt'))
+      .toString()
+      .split('\n')
+      .filter((item) => !!item)
+      .map((name) => ({ name }))
+
+    fuse = new Fuse(MEDICATION_TITLES, { includeScore: true, keys: ['name'] })
+  }
+
+  const matches = entries.map((entry) => ({
+    ...entry,
+    searchScore: fuse!.search(entry.text).reduce((acc, result) => Math.max(acc, result.score!), 0),
+    numDigits: countDigits(entry.text),
+  }))
+
+  const maxLength = entries.reduce((acc, item) => Math.max(acc, item.text.length), 0)
+  const maxNumDigits = matches.reduce((acc, item) => Math.max(acc, item.numDigits), 0)
+  const maxSearchScore = matches.reduce((acc, item) => Math.max(acc, item.searchScore), 0)
+
+  const sorted = matches.sort(
+    descend((entry) =>
+      heuristic({
+        maxLength,
+        maxNumDigits,
+        numDigits: entry.numDigits,
+        length: entry.text.length,
+        predictionConfidence: entry.confidence,
+        searchScore: entry.searchScore,
+        maxSearchScore,
+      }),
+    ),
+  )
+
+  return sorted[0] || null
+}
+
+function heuristic({
+  predictionConfidence,
+  maxSearchScore,
+  length,
+  maxLength,
+  numDigits,
+  maxNumDigits,
+  searchScore,
+}: {
+  predictionConfidence: number
+  maxSearchScore: number
+  searchScore: number
+  length: number
+  maxLength: number
+  numDigits: number
+  maxNumDigits: number
+}) {
+  return (
+    predictionConfidence +
+    (numDigits * 0.4) / maxNumDigits +
+    (length * 0.4) / maxLength +
+    (searchScore * (length / maxLength)) / maxSearchScore
+  )
+}
+
+function countDigits(str: string) {
+  let result = 0
+  for (const character of str) {
+    if (character.match(/[0-9]/)) {
+      result += 1
+    }
+  }
+  return result
 }
