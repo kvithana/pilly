@@ -5,17 +5,17 @@ import 'firebase/auth'
 import 'firebase/functions'
 
 const app = firebase.initializeApp({
-  apiKey: 'AIzaSyCUcaWwjMGI5Tua7ecPXmIUekW8PjasoiQ',
-  authDomain: 'codebrew-2020.firebaseapp.com',
-  databaseURL: 'https://codebrew-2020.firebaseio.com',
-  projectId: 'codebrew-2020',
-  storageBucket: 'codebrew-2020.appspot.com',
-  messagingSenderId: '338256134689',
-  appId: '1:338256134689:web:7b73ca66500da7f1941960',
+  apiKey: 'AIzaSyBKMMHSyLMSMc5iqoItPgxUlJJTFJEV65Q',
+  authDomain: 'codebrew-bs.firebaseapp.com',
+  databaseURL: 'https://codebrew-bs.firebaseio.com',
+  projectId: 'codebrew-bs',
+  storageBucket: 'codebrew-bs.appspot.com',
+  messagingSenderId: '7867687218',
+  appId: '1:7867687218:web:8726a2afe0a272e52e372b',
 })
 
 const auth = app.auth()
-const functions = app.functions('asia-northeast1')
+const functions = app.functions('australia-southeast1')
 const storage = app.storage()
 const firestore = app.firestore()
 
