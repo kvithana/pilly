@@ -16,15 +16,21 @@ export function AddMedication() {
 
   const medicationTitle = history.location.state?.medicationTitle || null
   const doseFrequencyNumber = history.location.state?.doseFrequencyNumber || null
-  const dosageNumber = history.location.state?.dosageNumber
+  const dosageNumber = history.location.state?.dosageNumber || null
 
   console.log({ medicationTitle, doseFrequencyNumber, dosageNumber })
+
+  const goBack = () => {
+    history.push('/scan')
+  }
 
   return (
     <div className={cs('min-h-screen', 'bg-brand-primary', 'text-brand-white')}>
       <div className={cs('h-full', 'flex', 'flex-col')}>
-        <div className={cs('px-5', 'py-5')}>
-          <i className={cs('fas', 'fa-chevron-left', 'text-brand-white', 'text-2xl')} />
+        <div>
+          <button className={cs('h-16', 'w-16', 'inline-flex', 'items-center', 'justify-center')} onClick={goBack}>
+            <i className={cs('fas', 'fa-chevron-left', 'text-brand-white', 'text-2xl')} />
+          </button>
         </div>
 
         <div className={cs('w-full', 'flex', 'items-center', 'flex-col', 'text-brand-white', 'px-5', 'mb-5')}>

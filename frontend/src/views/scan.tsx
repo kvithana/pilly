@@ -131,10 +131,19 @@ export function ScanView() {
     }
   }
 
+  const goBack = () => {
+    history.push('/home')
+  }
+
   return (
-    <div className={cs('min-h-screen', 'flex', 'flex-col', 'items-center', 'justify-center', 'bg-brand-secondary')}>
-      <div className={cs('p-4', 'w-full')}>
-        <Square className={cs('w-full')}>
+    <div className={cs('min-h-screen', 'flex', 'flex-col', 'items-center', 'bg-brand-secondary', 'pb-12')}>
+      <div className={cs('w-full')}>
+        <button className={cs('h-16', 'w-16', 'inline-flex', 'items-center', 'justify-center')} onClick={goBack}>
+          <i className={cs('fas', 'fa-chevron-left', 'text-brand-blue', 'text-2xl')} />
+        </button>
+      </div>
+      <div className={cs('p-4', 'w-full', 'flex-grow', 'flex', 'flex-col', 'justify-center', 'items-center')}>
+        <Square className={cs('w-full', 'mb-4')}>
           <div
             className={cs(
               'w-full',
@@ -205,17 +214,18 @@ export function ScanView() {
                   'items-center',
                   'justify-center',
                   'rounded-lg',
+                  'text-lg',
                 )}
               >
-                <p>Health tip:</p>
+                <p className={cs('font-bold')}>Health tip:</p>
                 <Tips />
               </div>
             ) : null}
           </div>
         </Square>
-      </div>
-      <div>
-        <motion.p animate={{ opacity: processing ? 0 : 1 }}>Place the prescription label within the frame.</motion.p>
+        <div>
+          <motion.p animate={{ opacity: processing ? 0 : 1 }}>Place the prescription label within the frame.</motion.p>
+        </div>
       </div>
       {permission === 'granted' ? (
         <div className={cs('fixed', 'bottom-0', 'left-0', 'right-0', 'flex', 'justify-center', 'pb-8')}>
