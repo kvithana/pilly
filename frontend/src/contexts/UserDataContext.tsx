@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import React, { useContext, useEffect, useState } from 'react'
+import { firestore } from '../firebase'
 import logger from '../util/logger'
-import 'firebase/auth'
 import { AuthContext } from './AuthContext'
 
 export const UserDataContext = React.createContext<{
@@ -17,11 +15,8 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
   const { currentUser } = useContext(AuthContext)
 
   useEffect(() => {
-    let sub = (): void => (null as unknown) as void
     if (currentUser) {
-      sub = firebase
-        .app()
-        .firestore()
+      const unsub = firestore
         .collection('users')
         .doc(currentUser?.uid || '')
         .onSnapshot((doc) => {
@@ -32,8 +27,9 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
             setUserProfile(data as UserProfileData)
           }
         })
+
+      return unsub
     }
-    return sub
   }, [currentUser, _forceSub])
 
   const forceSub = () => _setForceSub(_forceSub + 1)
