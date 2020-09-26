@@ -11,7 +11,15 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox
 importScripts('https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js')
 
-const firebaseConfig = JSON.parse(atob(process.env.REACT_APP_FIREBASE_INIT))
+const firebaseConfig = {
+  apiKey: 'AIzaSyBKMMHSyLMSMc5iqoItPgxUlJJTFJEV65Q',
+  authDomain: 'codebrew-bs.firebaseapp.com',
+  databaseURL: 'https://codebrew-bs.firebaseio.com',
+  projectId: 'codebrew-bs',
+  storageBucket: 'codebrew-bs.appspot.com',
+  messagingSenderId: '7867687218',
+  appId: '1:7867687218:web:8726a2afe0a272e52e372b',
+}
 
 self.addEventListener('message', (event) => {
   // take over from the previous sw immediately (on refresh)
