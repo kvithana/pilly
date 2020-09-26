@@ -86,10 +86,10 @@ export const ReminderView = () => {
           <i className={cs('fas', 'fa-chevron-left', 'text-brand-white', 'text-2xl')} />
         </div>
 
-        <div className={cs('w-full', 'flex', 'items-center', 'flex-col', 'text-brand-white', 'pb-8')}>
+        <div className={cs('w-full', 'flex', 'items-center', 'flex-col', 'text-brand-white', 'pb-8', 'px-6')}>
           <i className={cs('fas', 'fa-bell', 'text-brand-white', 'text-3xl', 'mt-5')} />
           <div className={cs('m-4')} />
-          <span className={cs('text-3xl', 'font-semibold')}>{medicationData.title}</span>
+          <span className={cs('text-3xl', 'font-semibold', 'text-center')}>{medicationData.title}</span>
           <span className={cs('font-thin')}>
             {medicationData.dosage} pill{medicationData.dosage === 1 ? '' : 's'},{' '}
             {(() => {
