@@ -1,26 +1,25 @@
 // Import FirebaseAuth and firebase.
-import React from 'react'
+import React, { useMemo } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase'
+import { cs } from '../cs'
+import { auth, firebase } from '../firebase'
 
-// Configure FirebaseUI.
-const uiConfig: firebaseui.auth.Config = {
-  // Popup signin flow rather than redirect flow.
-  signInFlow: 'redirect',
-  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/signedIn',
-  // We will display Google and Facebook as auth providers.
-  signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID, firebase.auth.FacebookAuthProvider.PROVIDER_ID],
-}
+export const LoginView = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
+  const config: firebaseui.auth.Config = useMemo(
+    () => ({
+      // Popup signin flow rather than redirect flow.
+      signInFlow: 'redirect',
+      // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+      signInSuccess: onLoginSuccess,
+      // We will display Google and Facebook as auth providers.
+      signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    }),
+    [onLoginSuccess],
+  )
 
-export const LogInView = () => {
   return (
-    <div className="container mx-auto h-full">
-      <div>
-        <h1>My App</h1>
-        <p>Please sign-in:</p>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-      </div>
+    <div className={cs('container', 'mx-auto')}>
+      <StyledFirebaseAuth uiConfig={config} firebaseAuth={auth} />
     </div>
   )
 }
