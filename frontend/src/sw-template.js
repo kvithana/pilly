@@ -43,7 +43,7 @@ if (firebase.messaging.isSupported()) {
   messaging.setBackgroundMessageHandler(function (payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', JSON.stringify(payload))
     const notificationTitle = payload.data.title
-    let notificationOptions = payload.data.options
+    let notificationOptions = JSON.parse(payload.data.options)
     // notificationOptions = {
     //   actions: [{ action: 'view', title: 'View' }],
     //   body: payload.data.body,
