@@ -2,11 +2,6 @@
  * Template to inject Firebase messaging into the existing React PWA service worker.
  */
 
-if (!process.env.REACT_APP_FIREBASE_INIT) {
-  // if not building in a production environment
-  require('dotenv').config()
-}
-
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js')
 importScripts('https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js')
