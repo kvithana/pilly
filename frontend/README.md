@@ -1,1 +1,1 @@
-Hello world.
+PWA Repository. Uses `yarn`.
