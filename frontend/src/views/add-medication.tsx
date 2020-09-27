@@ -29,7 +29,13 @@ export function AddMedication() {
   }, [history.location.state])
 
   const onChangeMedicationClick = () => {
-    toast('Not implemented yet 😭')
+    if (dosage === 1 && schedule === 1) {
+      setMedicationTitle('APO-AZITHROMYCIN')
+    }
+    if (dosage === 2 && schedule === 2) {
+      setMedicationTitle('CEFALEXIN (SZ) 500MG')
+    }
+    // toast('Not implemented yet 😭')
   }
 
   const onDosageChange = (e: React.FormEvent<HTMLSelectElement>) => {
